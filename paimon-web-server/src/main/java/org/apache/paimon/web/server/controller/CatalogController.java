@@ -56,7 +56,11 @@ public class CatalogController {
     @PostMapping("/create")
     public R<Void> createCatalog(@RequestBody CatalogDTO catalogDTO) {
         try {
-            return catalogService.createCatalog(catalogDTO);
+            if (catalogService.checkCatalogNameUnique(catalogDTO)) {
+                return R.failed(Status.CATALOG_NAME_IS_EXIST, catalogDTO.getName());
+            }
+            catalogService.createCatalog(catalogDTO);
+            return R.succeed();
         } catch (Exception e) {
             log.error("Exception with creating catalog.", e);
             return R.failed(Status.CATALOG_CREATE_ERROR);

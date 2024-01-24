@@ -45,11 +45,7 @@ public class CatalogServiceImpl extends ServiceImpl<CatalogMapper, CatalogInfo>
     }
 
     @Override
-    public R<Void> createCatalog(CatalogDTO catalogDTO) {
-        if (checkCatalogNameUnique(catalogDTO)) {
-            return R.failed(Status.CATALOG_NAME_IS_EXIST, catalogDTO.getName());
-        }
-
+    public void createCatalog(CatalogDTO catalogDTO) {
         if (catalogDTO.getType().equalsIgnoreCase(CatalogMode.FILESYSTEM.getMode())) {
             PaimonServiceFactory.createFileSystemCatalogService(
                     catalogDTO.getName(), catalogDTO.getWarehouse(), catalogDTO.getOptions());
