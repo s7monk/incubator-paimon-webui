@@ -65,6 +65,11 @@ export default defineComponent({
       consoleHeightType.value = type
     }
 
+    const showConsole = ref(true)
+    const handleConsoleClose = () => {
+      showConsole.value = false
+    }
+
 
     watch(
       () => consoleHeightType.value,
@@ -91,7 +96,9 @@ export default defineComponent({
       tabData,
       handleConsoleUp,
       handleConsoleDown,
-      consoleHeightType
+      handleConsoleClose,
+      consoleHeightType,
+      showConsole
     }
   },
   render() {
@@ -122,14 +129,16 @@ export default defineComponent({
                 </n-card>
               }
             </div>
-            <div class={styles.console} style={`height: ${this.consoleHeightType === 'up' ? '80%' : '40%'}`}>
-              {
-                this.tabData.panelsList?.length > 0 &&
-                <n-card content-style={'padding: 0;'}>
-                  <EditorConsole onConsoleDown={this.handleConsoleDown} onConsoleUp={this.handleConsoleUp} />
-                </n-card>
-              }
-            </div>
+            { this.showConsole && (
+              <div class={styles.console} style={`height: ${this.consoleHeightType === 'up' ? '80%' : '40%'}`}>
+                {
+                  this.tabData.panelsList?.length > 0 &&
+                    <n-card content-style={'padding: 0;'}>
+                        <EditorConsole onConsoleDown={this.handleConsoleDown} onConsoleUp={this.handleConsoleUp} onConsoleClose={this.handleConsoleClose}/>
+                    </n-card>
+                }
+              </div>
+            )}
           </n-card>
         </div>
       </div>
