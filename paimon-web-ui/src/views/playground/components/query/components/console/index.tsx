@@ -15,7 +15,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License. */
 
-import { ChevronDown, ChevronUp, TrashOutline } from '@vicons/ionicons5'
+import { KeyboardDoubleArrowUpSharp, KeyboardDoubleArrowDownSharp, CloseSharp } from '@vicons/material'
 import styles from './index.module.scss'
 
 export default defineComponent({
@@ -63,7 +63,7 @@ export default defineComponent({
                   <n-button
                     text
                     v-slots={{
-                      icon: () => <n-icon component={TrashOutline}></n-icon>
+                      icon: () => <n-icon component={KeyboardDoubleArrowUpSharp} size="20"></n-icon>
                     }}
                   >
                   </n-button>
@@ -78,7 +78,7 @@ export default defineComponent({
                     text
                     onClick={this.handleUp}
                     v-slots={{
-                      icon: () => <n-icon component={ChevronUp}></n-icon>
+                      icon: () => <n-icon component={KeyboardDoubleArrowDownSharp} size="20"></n-icon>
                     }}
                   >
                   </n-button>
@@ -93,7 +93,7 @@ export default defineComponent({
                     text
                     onClick={this.handleDown}
                     v-slots={{
-                      icon: () => <n-icon component={ChevronDown}></n-icon>
+                      icon: () => <n-icon component={CloseSharp} size="19"></n-icon>
                     }}
                   >
                   </n-button>
