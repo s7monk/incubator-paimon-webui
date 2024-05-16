@@ -17,6 +17,7 @@ under the License. */
 
 import { KeyboardDoubleArrowUpSharp, KeyboardDoubleArrowDownSharp, CloseSharp } from '@vicons/material'
 import TableActionBar from './components/controls'
+import TableResult from './components/table'
 import styles from './index.module.scss'
 
 export default defineComponent({
@@ -59,6 +60,7 @@ export default defineComponent({
           </n-tab-pane>
           <n-tab-pane name="result" tab={this.t('playground.result')}>
             <TableActionBar/>
+            <TableResult/>
           </n-tab-pane>
         </n-tabs>
         <div class={styles.operations}>

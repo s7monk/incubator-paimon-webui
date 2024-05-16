@@ -34,13 +34,13 @@ export default defineComponent({
     return (
       <div class={styles.container}>
        <n-space class={styles.left}>
-         <n-popover trigger="hover" placement="bottom-start" show-arrow={false}
+         <n-popover trigger="hover" placement="bottom-start" show-arrow={false} content-style="padding: 0; align: center !important;"
                     v-slots={{
                       trigger: () => (
                         <n-button
                           text
                           v-slots={{
-                            icon: () => <n-icon component={TableChartOutlined} size="20"></n-icon>
+                            icon: () => <n-icon component={TableChartOutlined} size="20" ></n-icon>
                           }}
                         >
                         </n-button>
@@ -62,7 +62,7 @@ export default defineComponent({
                     }}>
            <span>{this.t('playground.switch_to_chart')}</span>
          </n-popover>
-         <span>|</span>
+         <n-divider vertical style="height: 20px;"/>
          <n-popover trigger="hover" placement="bottom-start" show-arrow={false}
                     v-slots={{
                       trigger: () => (
@@ -105,7 +105,7 @@ export default defineComponent({
                     }}>
            <span>{this.t('playground.schedule_refresh')}</span>
          </n-popover>
-         <span>|</span>
+         <n-divider vertical style="height: 20px;"/>
          <span>4 Columns</span>
        </n-space>
         <div class={styles.right}>
