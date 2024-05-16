@@ -16,6 +16,7 @@ specific language governing permissions and limitations
 under the License. */
 
 import { KeyboardDoubleArrowUpSharp, KeyboardDoubleArrowDownSharp, CloseSharp } from '@vicons/material'
+import TableActionBar from './components/controls'
 import styles from './index.module.scss'
 
 export default defineComponent({
@@ -57,7 +58,7 @@ export default defineComponent({
             {this.t('playground.logs')}
           </n-tab-pane>
           <n-tab-pane name="result" tab={this.t('playground.result')}>
-            {this.t('playground.result')}
+            <TableActionBar/>
           </n-tab-pane>
         </n-tabs>
         <div class={styles.operations}>
