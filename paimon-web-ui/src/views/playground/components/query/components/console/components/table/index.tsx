@@ -76,7 +76,7 @@ export default defineComponent({
           class={styles.table}
           columns={this.columns}
           data={this.data}
-          max-height={138}
+          max-height={90}
         />
       </div>
     )
