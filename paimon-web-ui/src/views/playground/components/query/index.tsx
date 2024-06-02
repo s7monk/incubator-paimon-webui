@@ -38,6 +38,7 @@ export default defineComponent({
     const elapsedTime = ref(0)
     const currentJob = computed(() => jobStore.getCurrentJob)
     const jobStatus = computed(() => jobStore.getJobStatus)
+    const verticalSplitSize = ref(0.60)
 
     const editorVariables = reactive({
       editor: {} as any,
@@ -66,12 +67,14 @@ export default defineComponent({
 
     const consoleHeightType = ref('down')
 
-    const handleConsoleUp = (type: string) => {
-      consoleHeightType.value = type
+    const handleConsoleUp = () => {
+      consoleHeightType.value = 'up'
+      verticalSplitSize.value = 0.20
     }
 
-    const handleConsoleDown = (type: string) => {
-      consoleHeightType.value = type
+    const handleConsoleDown = () => {
+      consoleHeightType.value = 'down'
+      verticalSplitSize.value = 0.60
     }
 
     const showConsole = ref(true)
@@ -144,6 +147,10 @@ export default defineComponent({
 
     onUnmounted(() => jobStore.resetCurrentResult())
 
+    const handleSizeChange = (newSize: number) => {
+      verticalSplitSize.value = newSize
+    }
+
     return {
       ...toRefs(editorVariables),
       editorMounted,
@@ -156,52 +163,76 @@ export default defineComponent({
       handleConsoleClose,
       showConsole,
       consoleHeightType,
+      verticalSplitSize,
+      handleSizeChange,
     }
   },
   render() {
     return (
       <div class={styles.query}>
-        <div class={styles['menu-tree']}>
-          <MenuTree />
-        </div>
-        <div class={styles['editor-area']}>
-          <n-card class={styles.card} content-style="padding: 5px 18px;display: flex;flex-direction: column;">
-            <div class={styles.tabs}>
-              <EditorTabs />
-            </div>
-            <div class={styles.debugger}>
-              <EditorDebugger onHandleFormat={this.handleFormat} onHandleSave={this.editorSave} />
-            </div>
-            <div class={styles.editor} style={`height: ${this.consoleHeightType === 'up' ? '20%' : '60%'}`}>
-              {
-                this.tabData.panelsList?.length > 0
-                && (
-                  <n-card content-style="padding: 0;">
-                    <MonacoEditor
-                      v-model={this.tabData.panelsList.find((item: any) => item.key === this.tabData.chooseTab).content}
-                      language={this.language}
-                      onEditorMounted={this.editorMounted}
-                      onEditorSave={this.editorSave}
-                      onChange={this.handleContentChange}
-                    />
-                  </n-card>
-                )
-              }
-            </div>
-            { this.showConsole && (
-              <div class={styles.console} style={`height: ${this.consoleHeightType === 'up' ? '80%' : '40%'}`}>
-                {
-                  this.tabData.panelsList?.length > 0
-                  && (
-                    <n-card content-style="padding: 0;">
-                      <EditorConsole onConsoleDown={this.handleConsoleDown} onConsoleUp={this.handleConsoleUp} onConsoleClose={this.handleConsoleClose} />
-                    </n-card>
-                  )
-                }
+        <n-split direction="horizontal" max={0.35} min={0.20} resize-trigger-size={0} default-size={0.20}>
+          {{
+            '1': () => (
+              <div class={styles['menu-tree']}>
+                <MenuTree />
               </div>
-            )}
-          </n-card>
-        </div>
+            ),
+            '2': () => (
+              <div class={styles['editor-area']}>
+                <n-card class={styles.card} content-style="padding: 5px 18px;display: flex;flex-direction: column;">
+                  <div class={styles.tabs}>
+                    <EditorTabs />
+                  </div>
+                  <div class={styles.debugger}>
+                    <EditorDebugger onHandleFormat={this.handleFormat} onHandleSave={this.editorSave} />
+                  </div>
+                  <n-split direction="vertical" max={0.70} min={0.00} resize-trigger-size={0} default-size={0.6} size={this.verticalSplitSize} on-update:size={this.handleSizeChange}>
+                    {{
+                      '1': () => (
+                        <div class={styles.editor}>
+                          {
+                            this.tabData.panelsList?.length > 0
+                            && (
+                              <n-card content-style="padding: 0;">
+                                <MonacoEditor
+                                  v-model={this.tabData.panelsList.find((item: any) => item.key === this.tabData.chooseTab).content}
+                                  language={this.language}
+                                  onEditorMounted={this.editorMounted}
+                                  onEditorSave={this.editorSave}
+                                  onChange={this.handleContentChange}
+                                />
+                              </n-card>
+                            )
+                          }
+                        </div>
+                      ),
+                      '2': () => (this.showConsole && (
+                        <div class={styles.console}>
+                          {
+                            this.tabData.panelsList?.length > 0
+                            && (
+                              <n-card content-style="padding: 0;">
+                                <EditorConsole onConsoleDown={this.handleConsoleDown} onConsoleUp={this.handleConsoleUp} onConsoleClose={this.handleConsoleClose} />
+                              </n-card>
+                            )
+                          }
+                        </div>
+                      )),
+                      'resize-trigger': () => (
+                        <div class={styles['console-splitter']}>
+                        </div>
+                      ),
+                    }}
+                  </n-split>
+                </n-card>
+              </div>
+            ),
+            'resize-trigger': () => (
+              <div class={styles.split}>
+              </div>
+            ),
+          }}
+        </n-split>
       </div>
     )
   },

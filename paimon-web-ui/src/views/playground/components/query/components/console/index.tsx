@@ -56,7 +56,7 @@ export default defineComponent({
           pane-style="padding: 0px;box-sizing: border-box;"
         >
           <n-tab-pane name="logs" tab={this.t('playground.logs')}>
-            {this.t('playground.logs')}
+            <div style="padding: 10px 0 10px 20px">日志</div>
           </n-tab-pane>
           <n-tab-pane name="result" tab={this.t('playground.result')}>
             <TableActionBar />
