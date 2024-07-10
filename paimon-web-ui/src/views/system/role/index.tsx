@@ -27,7 +27,7 @@ import { createRole, getPermissionByRoleId, updateRole } from '@/api/models/role
 import type { Role, RoleDTO, RoleMenu } from '@/api/models/role/types'
 
 export default defineComponent({
-  name: 'RolePage',
+  name: 'RolePage2',
   setup() {
     const { t } = useLocaleHooks()
     const { tableVariables, getTableData, roleList, loading } = useTable()
